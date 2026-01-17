@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "ru5xx7VORMDQD03xlREoxBJuHbLl/85WBjBqfEZac2k=",
+  "Source": "DotnetExamSystem.Api",
+  "BasePath": "_content/DotnetExamSystem.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
