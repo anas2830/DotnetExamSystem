@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/wwwroot/uploads/0c886757-6bda-4adf-8620-4a31b6d267a5.jpg",
+      "PackagePath": "staticwebassets/uploads/0c886757-6bda-4adf-8620-4a31b6d267a5.jpg"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.DotnetExamSystem.Api.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.DotnetExamSystem.Api.props",
+      "PackagePath": "build\\DotnetExamSystem.Api.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.DotnetExamSystem.Api.props",
+      "PackagePath": "buildMultiTargeting\\DotnetExamSystem.Api.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.DotnetExamSystem.Api.props",
+      "PackagePath": "buildTransitive\\DotnetExamSystem.Api.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

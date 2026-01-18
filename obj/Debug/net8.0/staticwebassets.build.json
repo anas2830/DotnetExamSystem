@@ -1,11 +1,39 @@
 {
   "Version": 1,
-  "Hash": "ru5xx7VORMDQD03xlREoxBJuHbLl/85WBjBqfEZac2k=",
+  "Hash": "aG5D2X9MBWctmJB1zHRBLWVo/g4i86Sig6rPmiiWw08=",
   "Source": "DotnetExamSystem.Api",
   "BasePath": "_content/DotnetExamSystem.Api",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "DotnetExamSystem.Api/wwwroot",
+      "Source": "DotnetExamSystem.Api",
+      "ContentRoot": "/Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/wwwroot/",
+      "BasePath": "_content/DotnetExamSystem.Api",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/wwwroot/uploads/0c886757-6bda-4adf-8620-4a31b6d267a5.jpg",
+      "SourceId": "DotnetExamSystem.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/wwwroot/",
+      "BasePath": "_content/DotnetExamSystem.Api",
+      "RelativePath": "uploads/0c886757-6bda-4adf-8620-4a31b6d267a5.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/0c886757-6bda-4adf-8620-4a31b6d267a5.jpg"
+    }
+  ]
 }

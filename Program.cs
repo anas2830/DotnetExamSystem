@@ -20,6 +20,7 @@ builder.Services.AddMediatR(cfg =>
 
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<IUser, UserService>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 var jwtKey = builder.Configuration["Jwt:Key"];
 var jwtIssuer = builder.Configuration["Jwt:Issuer"];

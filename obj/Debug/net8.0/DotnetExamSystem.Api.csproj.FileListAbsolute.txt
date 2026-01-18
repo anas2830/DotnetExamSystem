@@ -53,3 +53,4 @@
 /Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/obj/Debug/net8.0/DotnetExamSystem.Api.pdb
 /Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/obj/Debug/net8.0/DotnetExamSystem.Api.genruntimeconfig.cache
 /Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/obj/Debug/net8.0/ref/DotnetExamSystem.Api.dll
+/Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/bin/Debug/net8.0/DotnetExamSystem.Api.staticwebassets.runtime.json
