@@ -7,15 +7,15 @@ namespace DotnetExamSystem.Api.Application.CommandHandelers;
 
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, User>
 {
-    private readonly IUser _user;
+    private readonly IUser _userService;
 
-    public CreateUserCommandHandler(IUser user)
+    public CreateUserCommandHandler(IUser userService)
     {
-        _user = user;
+        _userService = userService;
     }
 
     public async Task<User> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        return await _user.CreateAsync(request);
+        return await _userService.CreateAsync(request);
     }
 }

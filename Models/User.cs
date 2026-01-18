@@ -15,9 +15,18 @@ public class User
     [BsonElement("Email")]
     public string Email { get; set; } = null!;
 
-    [BsonElement("PasswordHash")]
-    public string PasswordHash { get; set; } = null!;
+    [BsonElement("Password")]
+    public string Password { get; set; } = null!;
 
     [BsonElement("Role")]
     public string Role { get; set; } = null!;
+
+    [BsonElement("Mobile")]
+    public string? Mobile { get; set; }
+
+    [BsonElement("Address")]
+    public string? Address { get; set; }
+
+    [BsonElement("ProfileImagePath")]
+    public string? ProfileImagePath { get; set; }
 }
