@@ -58,4 +58,51 @@ public class UserService : IUser
         await _userRepository.CreateAsync(user);
         return user;
     }
+
+    public async Task<bool> UpdateAsync(UpdateUserCommand command)
+    {
+        var user = await _userRepository.GetByIdAsync(command.Id);
+        if (user == null)
+            return false;
+        
+        if (command.ProfileImage != null && command.ProfileImage.Length > 0)
+        {
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+            if (!Directory.Exists(uploadsFolder))
+                Directory.CreateDirectory(uploadsFolder);
+
+            // Delete existing image if exists
+            if (!string.IsNullOrEmpty(user.ProfileImagePath))
+            {
+                var existingImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", user.ProfileImagePath);
+                if (File.Exists(existingImagePath))
+                    File.Delete(existingImagePath);
+            }
+
+            // Save new image
+            var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(command.ProfileImage.FileName ?? "");
+            var filePath = Path.Combine("uploads", uniqueFileName);
+            using (var stream = new FileStream(Path.Combine(uploadsFolder, uniqueFileName), FileMode.Create))
+            {
+                await command.ProfileImage.CopyToAsync(stream);
+            }
+
+            user.ProfileImagePath = filePath;
+        }
+        
+        user.Name = command.Name ?? user.Name;
+        user.Mobile = command.Mobile ?? user.Mobile;
+        user.Address = command.Address ?? user.Address;
+        return await _userRepository.UpdateAsync(user);
+    }
+
+    public async Task<bool> DeleteAsync(string id)
+    {
+        return await _userRepository.DeleteAsync(id);
+    }
+
+    public async Task<User?> GetByIdAsync(string id)
+    {
+        return await _userRepository.GetByIdAsync(id);
+    }
 }

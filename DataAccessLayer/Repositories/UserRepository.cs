@@ -21,4 +21,21 @@ public class UserRepository
     {
         await _users.InsertOneAsync(user);
     }
+
+    public async Task<bool> UpdateAsync(User user)
+    {
+        var result = await _users.ReplaceOneAsync(u => u.Id == user.Id, user);
+        return result.IsAcknowledged && result.ModifiedCount > 0;
+    }
+
+    public async Task<bool> DeleteAsync(string id)
+    {
+        var result = await _users.DeleteOneAsync(u => u.Id == id);
+        return result.IsAcknowledged && result.DeletedCount > 0;
+    }
+
+    public async Task<User?> GetByIdAsync(string id)
+    {
+        return await _users.Find(u => u.Id == id).FirstOrDefaultAsync();
+    }
 }
