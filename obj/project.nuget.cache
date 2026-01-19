@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "Mv9s/aNjJQs=",
+  "dgSpecHash": "Ys9X8M3KhCY=",
   "success": true,
   "projectFilePath": "/Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/DotnetExamSystem.Api.csproj",
   "expectedPackageFiles": [
     "/Users/anasbinahammad/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
     "/Users/anasbinahammad/.nuget/packages/dnsclient/1.6.1/dnsclient.1.6.1.nupkg.sha512",
+    "/Users/anasbinahammad/.nuget/packages/fluentvalidation/12.1.1/fluentvalidation.12.1.1.nupkg.sha512",
+    "/Users/anasbinahammad/.nuget/packages/fluentvalidation.dependencyinjectionextensions/12.1.1/fluentvalidation.dependencyinjectionextensions.12.1.1.nupkg.sha512",
     "/Users/anasbinahammad/.nuget/packages/mediatr/14.0.0/mediatr.14.0.0.nupkg.sha512",
     "/Users/anasbinahammad/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",
     "/Users/anasbinahammad/.nuget/packages/mediatr.extensions.microsoft.dependencyinjection/11.1.0/mediatr.extensions.microsoft.dependencyinjection.11.1.0.nupkg.sha512",

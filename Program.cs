@@ -10,6 +10,9 @@ using DotnetExamSystem.Api.Application.CommandHandelers;
 using DotnetExamSystem.Api.DataAccessLayer.Interfaces;
 using DotnetExamSystem.Api.DataAccessLayer.Services;
 using DotnetExamSystem.Api.DataAccessLayer.Repositories;
+using FluentValidation;
+using DotnetExamSystem.Api.Application.Behaviors;
+using DotnetExamSystem.Api.Application.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +20,10 @@ builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
 });
+builder.Services.AddValidatorsFromAssemblyContaining<CreateUserCommandValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateUserCommandValidator>();
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
 
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<IUser, UserService>();

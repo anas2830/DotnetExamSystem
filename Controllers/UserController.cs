@@ -3,6 +3,8 @@ using DotnetExamSystem.Api.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using FluentValidation;
+using System.Linq;
 
 namespace DotnetExamSystem.Api.Controllers;
 
@@ -20,8 +22,29 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateUser([FromForm] CreateUserCommand command)
     {
-        var user = await _mediator.Send(command);
-        return Ok(user);
+        try
+        {
+            var user = await _mediator.Send(command);
+            return Ok(user);
+        }
+        catch (FluentValidation.ValidationException ex)
+        {
+            var errors = ex.Errors.Select(e => new
+            {
+                property = e.PropertyName,
+                message = e.ErrorMessage
+            });
+
+            return BadRequest(new
+            {
+                message = "Validation failed",
+                errors
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     [HttpPut("{id}")]
@@ -29,8 +52,29 @@ public class UserController : ControllerBase
     public async Task<IActionResult> UpdateUser(string id, [FromForm] UpdateUserCommand command)
     {
         command.Id = id;
-        var user = await _mediator.Send(command);
-        return Ok(user);
+        try
+        {
+            var user = await _mediator.Send(command);
+            return Ok(user);
+        }
+        catch (FluentValidation.ValidationException ex)
+        {
+            var errors = ex.Errors.Select(e => new
+            {
+                property = e.PropertyName,
+                message = e.ErrorMessage
+            });
+
+            return BadRequest(new
+            {
+                message = "Validation failed",
+                errors
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     [HttpDelete("{id}")]
