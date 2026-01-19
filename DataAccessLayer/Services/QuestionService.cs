@@ -19,10 +19,7 @@ public class QuestionService : IQuestion
         var question = new Question
         {
             Title = command.Title,
-            Option1 = command.Option1,
-            Option2 = command.Option2,
-            Option3 = command.Option3,
-            Option4 = command.Option4,
+            Options = command.Options,
             CorrectAnswer = command.CorrectAnswer
         };
         await _questionRepository.CreateAsync(question);
@@ -38,13 +35,11 @@ public class QuestionService : IQuestion
         var question = await _questionRepository.GetByIdAsync(command.Id);
         if (question == null)
             throw new Exception("Question not found");
-            
-        question.Title = command.Title;
-        question.Option1 = command.Option1;
-        question.Option2 = command.Option2;
-        question.Option3 = command.Option3;
-        question.Option4 = command.Option4;
-        question.CorrectAnswer = command.CorrectAnswer;
+
+        if (!string.IsNullOrEmpty(command.Title)) question.Title = command.Title;
+        if (command.Options != null) question.Options = command.Options;
+        if (!string.IsNullOrEmpty(command.CorrectAnswer)) question.CorrectAnswer = command.CorrectAnswer;
+
         return await _questionRepository.UpdateAsync(question);
     }
 

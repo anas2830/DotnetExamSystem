@@ -7,22 +7,12 @@ public class Question
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public string? Id { get; set; }
+    public string Id { get; set; } = null!;
 
     [BsonElement("Title")]
     public string Title { get; set; } = null!;
 
-    [BsonElement("Option1")]
-    public string Option1 { get; set; } = null!;
-
-    [BsonElement("Option2")]
-    public string Option2 { get; set; } = null!;
-
-    [BsonElement("Option3")]
-    public string Option3 { get; set; } = null!;
-
-    [BsonElement("Option4")]
-    public string Option4 { get; set; } = null!;
+    public Dictionary<string, string> Options { get; set; } = new();
 
     [BsonElement("CorrectAnswer")]
     public string CorrectAnswer { get; set; } = null!;

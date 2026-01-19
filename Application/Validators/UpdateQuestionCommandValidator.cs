@@ -7,13 +7,20 @@ public class UpdateQuestionCommandValidator : AbstractValidator<UpdateQuestionCo
 {
     public UpdateQuestionCommandValidator()
     {
-        RuleFor(x => x.Title).NotEmpty().MinimumLength(3);
-        RuleFor(x => x.Option1).NotEmpty();
-        RuleFor(x => x.Option2).NotEmpty();
-        RuleFor(x => x.Option3).NotEmpty();
-        RuleFor(x => x.Option4).NotEmpty();
-        RuleFor(x => x.CorrectAnswer).NotEmpty().Must(x => 
-            new[] {"option1","option2","option3","option4"}.Contains(x))
-            .WithMessage("CorrectAnswer must be one of option1, option2, option3, option4");
+        When(x => x.Title != null, () =>
+        {
+            RuleFor(x => x.Title).MinimumLength(3);
+        });
+
+        When(x => x.Options != null, () =>
+        {
+            RuleFor(x => x.Options)
+                .NotEmpty().WithMessage("Options cannot be empty")
+                .Must(o => o.Count >= 2).WithMessage("At least 2 options required");
+
+            RuleFor(x => x.CorrectAnswer)
+                .Must((command, correct) => correct != null && command.Options.ContainsKey(correct))
+                .WithMessage("CorrectAnswer must be one of the option keys");
+        });
     }
 }

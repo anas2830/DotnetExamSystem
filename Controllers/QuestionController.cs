@@ -54,7 +54,7 @@ public class QuestionController : ControllerBase
         {
             command.Id = id;
             var result = await _mediator.Send(command);
-            return Ok(result);
+            return Ok(new { message = "Question updated successfully", success = result });
         }
         catch (FluentValidation.ValidationException ex)
         {
@@ -71,6 +71,7 @@ public class QuestionController : ControllerBase
             return BadRequest(new { message = ex.Message });
         }
     }
+
 
     [HttpDelete("{id}")]
     [Authorize(Roles = "Admin")]
