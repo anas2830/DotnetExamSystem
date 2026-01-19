@@ -23,11 +23,18 @@ builder.Services.AddMediatR(cfg =>
 builder.Services.AddValidatorsFromAssemblyContaining<CreateUserCommandValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateUserCommandValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<LoginCommandValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateQuestionCommandValidator>();
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 
+
 builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<QuestionRepository>();
+
+
 builder.Services.AddScoped<IUser, UserService>();
+builder.Services.AddScoped<IQuestion, QuestionService>();
+
 builder.Services.AddScoped<IJwtService, JwtService>();
 
 var jwtKey = builder.Configuration["Jwt:Key"];
