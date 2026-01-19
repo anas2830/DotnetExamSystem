@@ -8,6 +8,6 @@ public interface IQuestion
     Task<Question> CreateAsync(CreateQuestionCommand command);
     Task<Question?> GetByIdAsync(string id);
     Task<List<Question>> GetAllAsync();
-    Task<bool> UpdateAsync(Question question);
+    Task<bool> UpdateAsync(UpdateQuestionCommand command);
     Task<bool> DeleteAsync(string id);
 }

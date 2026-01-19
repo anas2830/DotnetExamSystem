@@ -33,7 +33,20 @@ public class QuestionService : IQuestion
 
     public async Task<List<Question>> GetAllAsync() => await _questionRepository.GetAllAsync();
 
-    public async Task<bool> UpdateAsync(Question question) => await _questionRepository.UpdateAsync(question);
+    public async Task<bool> UpdateAsync(UpdateQuestionCommand command)
+    {
+        var question = await _questionRepository.GetByIdAsync(command.Id);
+        if (question == null)
+            throw new Exception("Question not found");
+            
+        question.Title = command.Title;
+        question.Option1 = command.Option1;
+        question.Option2 = command.Option2;
+        question.Option3 = command.Option3;
+        question.Option4 = command.Option4;
+        question.CorrectAnswer = command.CorrectAnswer;
+        return await _questionRepository.UpdateAsync(question);
+    }
 
     public async Task<bool> DeleteAsync(string id) => await _questionRepository.DeleteAsync(id);
 }

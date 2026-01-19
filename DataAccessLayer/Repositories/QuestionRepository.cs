@@ -1,5 +1,6 @@
 using DotnetExamSystem.Api.Models;
 using MongoDB.Driver;
+using DotnetExamSystem.Api.Application.Commands;
 
 namespace DotnetExamSystem.Api.DataAccessLayer.Repositories;
 
@@ -18,11 +19,11 @@ public class QuestionRepository
     public async Task<bool> UpdateAsync(Question question)
     {
         var result = await _questions.ReplaceOneAsync(q => q.Id == question.Id, question);
-        return result.ModifiedCount > 0;
+        return result.IsAcknowledged && result.ModifiedCount > 0;
     }
     public async Task<bool> DeleteAsync(string id)
     {
         var result = await _questions.DeleteOneAsync(q => q.Id == id);
-        return result.DeletedCount > 0;
+        return result.IsAcknowledged && result.DeletedCount > 0;
     }
 }
