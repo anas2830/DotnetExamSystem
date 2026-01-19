@@ -63,7 +63,7 @@ public class UserService : IUser
     {
         var user = await _userRepository.GetByIdAsync(command.Id);
         if (user == null)
-            return false;
+            throw new Exception("User not found");
         
         if (command.ProfileImage != null && command.ProfileImage.Length > 0)
         {

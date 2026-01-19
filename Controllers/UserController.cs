@@ -51,9 +51,9 @@ public class UserController : ControllerBase
     [Authorize]
     public async Task<IActionResult> UpdateUser(string id, [FromForm] UpdateUserCommand command)
     {
-        command.Id = id;
         try
         {
+            command.Id = id;
             var user = await _mediator.Send(command);
             return Ok(user);
         }
@@ -86,7 +86,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public async Task<IActionResult> GetUser(string id)
     {
         var user = await _mediator.Send(new GetUserQuery { Id = id });
