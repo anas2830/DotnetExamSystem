@@ -1,6 +1,7 @@
 using DotnetExamSystem.Api.DataAccessLayer.Interfaces;
 using DotnetExamSystem.Api.Models;
 using DotnetExamSystem.Api.DataAccessLayer.Repositories;
+using DotnetExamSystem.Api.Application.Commands;
 
 namespace DotnetExamSystem.Api.DataAccessLayer.Services;
 
@@ -13,8 +14,17 @@ public class QuestionService : IQuestion
         _questionRepository = questionRepository;
     }
 
-    public async Task<Question> CreateAsync(Question question)
+    public async Task<Question> CreateAsync(CreateQuestionCommand command)
     {
+        var question = new Question
+        {
+            Title = command.Title,
+            Option1 = command.Option1,
+            Option2 = command.Option2,
+            Option3 = command.Option3,
+            Option4 = command.Option4,
+            CorrectAnswer = command.CorrectAnswer
+        };
         await _questionRepository.CreateAsync(question);
         return question;
     }

@@ -14,17 +14,10 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
         _questionService = questionService;
     }
 
-    public async Task<Question> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
+    public async Task<Question> Handle(
+        CreateQuestionCommand command,
+        CancellationToken cancellationToken)
     {
-        var question = new Question
-        {
-            Title = request.Title,
-            Option1 = request.Option1,
-            Option2 = request.Option2,
-            Option3 = request.Option3,
-            Option4 = request.Option4,
-            CorrectAnswer = request.CorrectAnswer
-        };
-        return await _questionService.CreateAsync(question);
+        return await _questionService.CreateAsync(command);
     }
 }
