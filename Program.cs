@@ -22,6 +22,7 @@ builder.Services.AddMediatR(cfg =>
 });
 builder.Services.AddValidatorsFromAssemblyContaining<CreateUserCommandValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateUserCommandValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<LoginCommandValidator>();
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 

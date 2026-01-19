@@ -18,7 +18,28 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginCommand request)
     {
-        var result = await _mediator.Send(request);
-        return Ok(result);
+        try
+        {
+            var result = await _mediator.Send(request);
+            return Ok(result);
+        }
+        catch (FluentValidation.ValidationException ex)
+        {
+            var errors = ex.Errors.Select(e => new
+            {
+                property = e.PropertyName,
+                message = e.ErrorMessage
+            });
+
+            return BadRequest(new
+            {
+                message = "Validation failed",
+                errors
+            });
+        }
+        catch (Exception ex)
+        {
+            return Unauthorized(new { message = ex.Message });
+        }
     }
 }
