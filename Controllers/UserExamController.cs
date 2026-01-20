@@ -23,8 +23,15 @@ public class UserExamController : ControllerBase
     [Authorize]
     public async Task<IActionResult> StartExam([FromBody] StartExamCommand command)
     {
-        var result = await _mediator.Send(command);
-        return Ok(result);
+        try
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     [HttpPost("submit")]

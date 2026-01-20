@@ -27,4 +27,9 @@ public class UserExamRepository
         => await _collection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
     public async Task<bool> ExistsAsync(Expression<Func<UserExam, bool>> filter) => await _collection.Find(filter).AnyAsync();
+
+    public async Task<List<UserExam>> GetByExamIdAsync(string examId)
+    {
+        return await _collection.Find(ue => ue.ExamId == examId).ToListAsync();
+    }
 }

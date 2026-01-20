@@ -20,6 +20,10 @@ public class UserDto
     public string Id { get; set; } = null!;
     public string Name { get; set; } = null!;
     public string Email { get; set; } = null!;
+    public string Mobile { get; set; } = null!;
+    public string Address { get; set; } = null!;
+    public decimal Balance { get; set; }
+    public string? ProfileImagePath { get; set; }
 }
 
 public class ExamDto

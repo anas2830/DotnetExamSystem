@@ -102,4 +102,19 @@ public class ExamController : ControllerBase
         var exams = await _mediator.Send(new GetAllExamsQuery());
         return Ok(exams);
     }
+
+    [HttpGet("{examId}/users")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> GetExamUsers(string examId)
+    {
+        try
+        {
+            var users = await _mediator.Send(new GetExamUsersQuery { ExamId = examId });
+            return Ok(users);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
 }
