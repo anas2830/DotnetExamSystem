@@ -25,16 +25,19 @@ builder.Services.AddValidatorsFromAssemblyContaining<UpdateUserCommandValidator>
 builder.Services.AddValidatorsFromAssemblyContaining<LoginCommandValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateQuestionCommandValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateQuestionCommandValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateExamCommandValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateExamCommandValidator>();
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 
 
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<QuestionRepository>();
-
+builder.Services.AddScoped<ExamRepository>();
 
 builder.Services.AddScoped<IUser, UserService>();
 builder.Services.AddScoped<IQuestion, QuestionService>();
+builder.Services.AddScoped<IExam, ExamService>();
 
 builder.Services.AddScoped<IJwtService, JwtService>();
 

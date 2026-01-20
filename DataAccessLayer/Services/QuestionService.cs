@@ -43,5 +43,9 @@ public class QuestionService : IQuestion
         return await _questionRepository.UpdateAsync(question);
     }
 
-    public async Task<bool> DeleteAsync(string id) => await _questionRepository.DeleteAsync(id);
+    public async Task<bool> DeleteAsync(string id){
+        var question = await _questionRepository.GetByIdAsync(id);
+        if (question == null) throw new Exception("Question not found");
+        return await _questionRepository.DeleteAsync(id);
+    }
 }

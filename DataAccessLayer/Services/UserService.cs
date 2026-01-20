@@ -92,6 +92,7 @@ public class UserService : IUser
         }
         
         user.Name = command.Name ?? user.Name;
+        
         user.Mobile = command.Mobile ?? user.Mobile;
         user.Address = command.Address ?? user.Address;
         return await _userRepository.UpdateAsync(user);
@@ -99,6 +100,8 @@ public class UserService : IUser
 
     public async Task<bool> DeleteAsync(string id)
     {
+        var user = await _userRepository.GetByIdAsync(id);
+        if (user == null) throw new Exception("User not found");
         return await _userRepository.DeleteAsync(id);
     }
 
