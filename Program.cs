@@ -34,10 +34,12 @@ builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBeh
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<QuestionRepository>();
 builder.Services.AddScoped<ExamRepository>();
+builder.Services.AddScoped<UserExamRepository>();
 
 builder.Services.AddScoped<IUser, UserService>();
 builder.Services.AddScoped<IQuestion, QuestionService>();
 builder.Services.AddScoped<IExam, ExamService>();
+builder.Services.AddScoped<IUserExam, UserExamService>();
 
 builder.Services.AddScoped<IJwtService, JwtService>();
 
