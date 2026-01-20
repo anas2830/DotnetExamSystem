@@ -8,10 +8,12 @@ namespace DotnetExamSystem.Api.DataAccessLayer.Services;
 public class QuestionService : IQuestion
 {
     private readonly QuestionRepository _questionRepository;
+    private readonly UserExamRepository _userExamRepository;
 
-    public QuestionService(QuestionRepository questionRepository)
+    public QuestionService(QuestionRepository questionRepository, UserExamRepository userExamRepository)
     {
         _questionRepository = questionRepository;
+        _userExamRepository = userExamRepository;
     }
 
     public async Task<Question> CreateAsync(CreateQuestionCommand command)
@@ -46,6 +48,10 @@ public class QuestionService : IQuestion
     public async Task<bool> DeleteAsync(string id){
         var question = await _questionRepository.GetByIdAsync(id);
         if (question == null) throw new Exception("Question not found");
+
+        var anyAnswer = await _userExamRepository.ExistsAsync(ue => ue.Answers.Any(a => a.QuestionId == id));
+        if (anyAnswer) throw new Exception("Some users have answered this question");
+
         return await _questionRepository.DeleteAsync(id);
     }
 }

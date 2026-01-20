@@ -1,5 +1,6 @@
 using DotnetExamSystem.Api.Models;
 using MongoDB.Driver;
+using System.Linq.Expressions;
 
 namespace DotnetExamSystem.Api.DataAccessLayer.Repositories;
 
@@ -24,4 +25,6 @@ public class UserExamRepository
 
     public async Task<UserExam?> GetByIdAsync(string id)
         => await _collection.Find(x => x.Id == id).FirstOrDefaultAsync();
+
+    public async Task<bool> ExistsAsync(Expression<Func<UserExam, bool>> filter) => await _collection.Find(filter).AnyAsync();
 }

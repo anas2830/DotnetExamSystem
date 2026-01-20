@@ -76,8 +76,15 @@ public class ExamController : ControllerBase
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteExam(string id)
     {
-        var result = await _mediator.Send(new DeleteExamCommand { Id = id });
-        return Ok(result);
+        try
+        {
+            var result = await _mediator.Send(new DeleteExamCommand { Id = id });
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     [HttpGet("{id}")]

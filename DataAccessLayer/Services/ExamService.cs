@@ -8,10 +8,12 @@ namespace DotnetExamSystem.Api.DataAccessLayer.Services;
 public class ExamService : IExam
 {
     private readonly ExamRepository _examRepository;
+    private readonly UserExamRepository _userExamRepository;
 
-    public ExamService(ExamRepository examRepository)
+    public ExamService(ExamRepository examRepository, UserExamRepository userExamRepository)
     {
         _examRepository = examRepository;
+        _userExamRepository = userExamRepository;
     }
 
     public async Task<Exam> CreateAsync(CreateExamCommand command){
@@ -49,6 +51,8 @@ public class ExamService : IExam
     public async Task<bool> DeleteAsync(string id){
         var exam = await _examRepository.GetByIdAsync(id);
         if (exam == null) throw new Exception("Exam not found");
+        var anyUserExam = await _userExamRepository.ExistsAsync(ue => ue.ExamId == id);
+        if (anyUserExam) throw new Exception("Some users have bought this exam");
         return await _examRepository.DeleteAsync(id);
     }
 }
