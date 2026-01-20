@@ -29,4 +29,7 @@ public class User
 
     [BsonElement("ProfileImagePath")]
     public string? ProfileImagePath { get; set; }
+
+    [BsonElement("Balance")]
+    public decimal Balance { get; set; }
 }

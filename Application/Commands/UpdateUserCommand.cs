@@ -10,4 +10,5 @@ public class UpdateUserCommand : IRequest<bool>
     public string? Mobile { get; set; }
     public string? Address { get; set; }
     public IFormFile? ProfileImage { get; set; }
+    public decimal Balance { get; set; }
 }

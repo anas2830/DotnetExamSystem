@@ -53,6 +53,7 @@ public class UserService : IUser
             Mobile = command.Mobile,
             Address = command.Address,
             ProfileImagePath = profileImagePath,
+            Balance = 1000,
         };
 
         await _userRepository.CreateAsync(user);
