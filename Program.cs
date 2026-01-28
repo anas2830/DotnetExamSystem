@@ -72,6 +72,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", corsBuilder =>
+    {
+        corsBuilder
+            .WithOrigins(builder.Configuration["AllowFrontend"])
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -91,7 +103,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseCors("AllowFrontend");
 app.MapControllers();
 
 app.Run();
