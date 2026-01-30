@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets/uploads/3e6c4680-aba5-4c5b-9daa-358596b650d5.jpeg"
     },
     {
+      "Id": "/Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/wwwroot/uploads/c9672f8e-dff0-4571-a8af-5a4b44f7cb6e.jpg",
+      "PackagePath": "staticwebassets/uploads/c9672f8e-dff0-4571-a8af-5a4b44f7cb6e.jpg"
+    },
+    {
       "Id": "obj/Debug/net8.0/staticwebassets/msbuild.DotnetExamSystem.Api.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },
