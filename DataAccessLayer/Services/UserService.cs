@@ -3,6 +3,7 @@ using DotnetExamSystem.Api.DataAccessLayer.Interfaces;
 using DotnetExamSystem.Api.DataAccessLayer.Repositories;
 using DotnetExamSystem.Api.Application.Commands;
 using DotnetExamSystem.Api.Helpers;
+using DotnetExamSystem.Api.Exceptions;
 
 namespace DotnetExamSystem.Api.DataAccessLayer.Services;
 
@@ -26,7 +27,7 @@ public class UserService : IUser
     {
         var existingUser = await _userRepository.GetByEmailAsync(command.Email);
         if (existingUser != null)
-            throw new Exception("User already exists");
+            throw new ApiException("User already exists");
 
         string? profileImagePath = null;
         if (command.ProfileImage != null && command.ProfileImage.Length > 0)
@@ -64,7 +65,7 @@ public class UserService : IUser
     {
         var user = await _userRepository.GetByIdAsync(command.Id);
         if (user == null)
-            throw new Exception("User not found");
+            throw new ApiException("User not found");
         
         if (command.ProfileImage != null && command.ProfileImage.Length > 0)
         {
@@ -101,7 +102,7 @@ public class UserService : IUser
     public async Task<bool> DeleteAsync(string id)
     {
         var user = await _userRepository.GetByIdAsync(id);
-        if (user == null) throw new Exception("User not found");
+        if (user == null) throw new ApiException("User not found");
         return await _userRepository.DeleteAsync(id);
     }
 

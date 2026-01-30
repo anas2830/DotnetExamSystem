@@ -2,6 +2,7 @@ using DotnetExamSystem.Api.DataAccessLayer.Interfaces;
 using DotnetExamSystem.Api.Models;
 using DotnetExamSystem.Api.DataAccessLayer.Repositories;
 using DotnetExamSystem.Api.Application.Commands;
+using DotnetExamSystem.Api.Exceptions;
 
 namespace DotnetExamSystem.Api.DataAccessLayer.Services;
 
@@ -36,7 +37,7 @@ public class QuestionService : IQuestion
     {
         var question = await _questionRepository.GetByIdAsync(command.Id);
         if (question == null)
-            throw new Exception("Question not found");
+            throw new ApiException("Question not found");
 
         if (!string.IsNullOrEmpty(command.Title)) question.Title = command.Title;
         if (command.Options != null) question.Options = command.Options;
@@ -47,10 +48,10 @@ public class QuestionService : IQuestion
 
     public async Task<bool> DeleteAsync(string id){
         var question = await _questionRepository.GetByIdAsync(id);
-        if (question == null) throw new Exception("Question not found");
+        if (question == null) throw new ApiException("Question not found");
 
         var anyAnswer = await _userExamRepository.ExistsAsync(ue => ue.Answers.Any(a => a.QuestionId == id));
-        if (anyAnswer) throw new Exception("Some users have answered this question");
+        if (anyAnswer) throw new ApiException("Some users have answered this question");
 
         return await _questionRepository.DeleteAsync(id);
     }

@@ -3,6 +3,7 @@ using DotnetExamSystem.Api.Models;
 using MediatR;
 using DotnetExamSystem.Api.Application.Commands;
 using DotnetExamSystem.Api.DTO;
+using DotnetExamSystem.Api.Exceptions;
 
 namespace DotnetExamSystem.Api.Application.CommandHandelers;
 
@@ -22,7 +23,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>
         var user = await _userService.GetByEmailAsync(request.Email);
         if (user == null)
         {
-            throw new Exception("User not found");
+            throw new ApiException("User not found");
         }
         return new LoginResponse
         {

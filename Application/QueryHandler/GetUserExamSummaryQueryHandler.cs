@@ -3,6 +3,7 @@ using DotnetExamSystem.Api.Application.Queries;
 using DotnetExamSystem.Api.Models;
 using DotnetExamSystem.Api.DataAccessLayer.Interfaces;
 using DotnetExamSystem.Api.DTO;
+using DotnetExamSystem.Api.Exceptions;
 
 namespace DotnetExamSystem.Api.Application.QueryHandlers;
 
@@ -32,10 +33,10 @@ public class GetUserExamSummaryQueryHandler : IRequestHandler<GetUserExamSummary
         var userExam = await _userExamService.GetByIdAsync(request.UserExamId);
 
         if (userExam == null)
-            throw new Exception("User exam not found");
+            throw new ApiException("User exam not found");
 
         if (userExam.Status != "Submitted")
-            throw new Exception("Exam not submitted yet");
+            throw new ApiException("Exam not submitted yet");
 
         var user = await _userService.GetByIdAsync(userExam.UserId);
         var exam = await _examService.GetByIdAsync(userExam.ExamId);

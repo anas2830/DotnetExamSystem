@@ -98,6 +98,39 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.Use(async (context, next) =>
+{
+    try
+    {
+        await next();
+    }
+    catch (DotnetExamSystem.Api.Exceptions.ApiException ex)
+    {
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = ex.StatusCode;
+
+        var result = new
+        {
+            message = ex.Message
+        };
+
+        await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(result));
+    }
+    catch (Exception ex)
+    {
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = 500;
+
+        var result = new
+        {
+            message = "Internal server error"
+        };
+
+        await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(result));
+    }
+});
+
 app.UseStaticFiles(); 
 app.UseHttpsRedirection();
 app.UseRouting();

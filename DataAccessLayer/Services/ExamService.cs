@@ -2,6 +2,7 @@ using DotnetExamSystem.Api.DataAccessLayer.Interfaces;
 using DotnetExamSystem.Api.Models;
 using DotnetExamSystem.Api.Application.Commands;
 using DotnetExamSystem.Api.DataAccessLayer.Repositories;
+using DotnetExamSystem.Api.Exceptions;
 
 namespace DotnetExamSystem.Api.DataAccessLayer.Services;
 
@@ -38,7 +39,7 @@ public class ExamService : IExam
 
     public async Task<bool> UpdateAsync(UpdateExamCommand command){
         var exam = await _examRepository.GetByIdAsync(command.Id);
-        if (exam == null) throw new Exception("Exam not found");
+        if (exam == null) throw new ApiException("Exam not found");
 
         exam.Title = command.Title ?? exam.Title;
         exam.Date = command.Date ?? exam.Date;
@@ -50,9 +51,9 @@ public class ExamService : IExam
 
     public async Task<bool> DeleteAsync(string id){
         var exam = await _examRepository.GetByIdAsync(id);
-        if (exam == null) throw new Exception("Exam not found");
+        if (exam == null) throw new ApiException("Exam not found");
         var anyUserExam = await _userExamRepository.ExistsAsync(ue => ue.ExamId == id);
-        if (anyUserExam) throw new Exception("Some users have bought this exam");
+        if (anyUserExam) throw new ApiException("Some users have bought this exam");
         return await _examRepository.DeleteAsync(id);
     }
 }

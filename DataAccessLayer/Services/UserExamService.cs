@@ -2,6 +2,7 @@ using DotnetExamSystem.Api.DataAccessLayer.Interfaces;
 using DotnetExamSystem.Api.DataAccessLayer.Repositories;
 using DotnetExamSystem.Api.Models;
 using DotnetExamSystem.Api.DTO;
+using DotnetExamSystem.Api.Exceptions;
 
 namespace DotnetExamSystem.Api.DataAccessLayer.Services;
 
@@ -24,7 +25,7 @@ public class UserExamService : IUserExam
     {
         var userExam = await _repo.GetByIdAsync(id);
         if (userExam == null)
-            throw new Exception("Exam not found");
+            throw new ApiException("Exam not found");
         return userExam;
     }
 
@@ -32,11 +33,18 @@ public class UserExamService : IUserExam
     {
         var exam = await _examRepo.GetByIdAsync(examId);
         if (exam == null)
-            throw new Exception("Exam not found");
+            throw new ApiException("Exam not found");
 
         var existing = await _repo.GetByUserAndExamAsync(userId, examId);
         if (existing != null)
-            throw new Exception("User already bought this exam");
+            throw new ApiException("User already bought this exam");
+
+        var user = await _userRepo.GetByIdAsync(userId);
+        if (user == null || user.Balance < exam.Price)
+            throw new ApiException("User not found or insufficient balance");
+
+        user.Balance -= exam.Price;
+        await _userRepo.UpdateAsync(user);
 
         var userExam = new UserExam
         {
@@ -55,18 +63,18 @@ public class UserExamService : IUserExam
     {
         var existing = await _repo.GetByUserAndExamAsync(userId, examId);
         if (existing == null)
-            throw new Exception("User has not bought this exam");
+            throw new ApiException("User has not bought this exam");
 
         if (existing.Status != "Booked")
-            throw new Exception("Exam already started or submitted");
+            throw new ApiException("Exam already started or submitted");
 
         var exam = await _examRepo.GetByIdAsync(examId);
         if (exam == null)
-            throw new Exception("Exam not found");
+            throw new ApiException("Exam not found");
 
         var today = DateTime.UtcNow.Date;
         if (today != exam.Date.Date)
-            throw new Exception($"This exam can only be taken on {exam.Date:dd-MM-yyyy}");
+            throw new ApiException($"This exam can only be taken on {exam.Date:dd-MM-yyyy}");
 
         existing.Status = "Started";
         await _repo.UpdateAsync(existing);
@@ -77,10 +85,10 @@ public class UserExamService : IUserExam
     {
         var existing = await _repo.GetByUserAndExamAsync(userId, examId);
         if (existing == null)
-            throw new Exception("User has not bought this exam");
+            throw new ApiException("User has not bought this exam");
 
         if (existing.Status != "Started")
-            throw new Exception("Exam not started or already submitted");
+            throw new ApiException("Exam not started or already submitted");
 
         // Evaluate score
         int score = 0;
@@ -108,7 +116,7 @@ public class UserExamService : IUserExam
     {
         var userExams = await _repo.GetByExamIdAsync(examId);
         if (userExams.Count == 0)
-            throw new Exception("No user exams found for this exam");
+            throw new ApiException("No user exams found for this exam");
         return userExams;
     }
 
