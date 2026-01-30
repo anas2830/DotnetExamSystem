@@ -1,5 +1,6 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DotnetExamSystem.Api.Models;
 
@@ -14,4 +15,7 @@ public class Exam
     public decimal Price { get; set; }
     public int TimeInMinutes { get; set; }
     public int TotalQuestions { get; set; }
+
+    [NotMapped]
+    public int AlreadyPurchase { get; set; } = 0;
 }

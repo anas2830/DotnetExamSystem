@@ -1,19 +1,39 @@
 using DotnetExamSystem.Api.Models;
 using MongoDB.Driver;
 using DotnetExamSystem.Api.Application.Commands;
+using MongoDB.Bson;
 
 namespace DotnetExamSystem.Api.DataAccessLayer.Repositories;
 
 public class ExamRepository
 {
     private readonly IMongoCollection<Exam> _exams;
+    private readonly IMongoCollection<UserExam> _userExams;
 
     public ExamRepository(MongoDbContext context)
     {
         _exams = context.GetCollection<Exam>("Exams");
+        _userExams = context.GetCollection<UserExam>("UserExams");
     }
 
-    public async Task<List<Exam>> GetAllAsync() => await _exams.Find(_ => true).ToListAsync();
+    public async Task<List<Exam>> GetAllAsync(string? userId, string? role)
+    {
+        var exams = await _exams.Find(_ => true).ToListAsync();
+
+        if (role != "Admin" && !string.IsNullOrEmpty(userId))
+        {
+            var purchasedExamIds = await _userExams
+                .Find(x => x.UserId == userId)
+                .Project(x => x.ExamId)
+                .ToListAsync();
+
+            foreach (var exam in exams)
+                exam.AlreadyPurchase = purchasedExamIds.Contains(exam.Id) ? 1 : 0;
+        }
+
+        return exams;
+    }
+
     public async Task<Exam?> GetByIdAsync(string id) => await _exams.Find(e => e.Id == id).FirstOrDefaultAsync();
     public async Task CreateAsync(Exam exam) => await _exams.InsertOneAsync(exam);
     public async Task<bool> UpdateAsync(Exam exam)

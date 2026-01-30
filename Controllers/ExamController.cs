@@ -3,6 +3,7 @@ using MediatR;
 using DotnetExamSystem.Api.Application.Commands;
 using Microsoft.AspNetCore.Authorization;
 using DotnetExamSystem.Api.Application.Queries;
+using System.Security.Claims;
 
 namespace DotnetExamSystem.Api.Controllers;
 
@@ -99,7 +100,12 @@ public class ExamController : ControllerBase
     [Authorize]
     public async Task<IActionResult> GetAllExams()
     {
-        var exams = await _mediator.Send(new GetAllExamsQuery());
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var role = User.FindFirst(ClaimTypes.Role)?.Value ?? "User";
+        var exams = await _mediator.Send(new GetAllExamsQuery { 
+            UserId = userId ?? "",
+            Role = role 
+        });
         return Ok(exams);
     }
 

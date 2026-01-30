@@ -16,6 +16,6 @@ public class GetAllExamsQueryHandler : IRequestHandler<GetAllExamsQuery, List<Ex
 
     public async Task<List<Exam>> Handle(GetAllExamsQuery request, CancellationToken cancellationToken)
     {
-        return await _examService.GetAllAsync();
+        return await _examService.GetAllAsync(request.UserId, request.Role);
     }
 }

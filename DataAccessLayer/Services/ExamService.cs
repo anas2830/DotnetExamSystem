@@ -32,8 +32,8 @@ public class ExamService : IExam
         return await _examRepository.GetByIdAsync(id);
     }
 
-    public async Task<List<Exam>> GetAllAsync(){
-        return await _examRepository.GetAllAsync();
+    public async Task<List<Exam>> GetAllAsync(string userId, string role){
+        return await _examRepository.GetAllAsync(userId, role);
     }
 
     public async Task<bool> UpdateAsync(UpdateExamCommand command){
