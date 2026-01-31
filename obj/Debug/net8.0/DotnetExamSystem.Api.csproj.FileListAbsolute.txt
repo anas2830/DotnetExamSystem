@@ -8,6 +8,7 @@
 /Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/obj/Debug/net8.0/DotnetExamSystem.Api.sourcelink.json
 /Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/bin/Debug/net8.0/appsettings.Development.json
 /Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/bin/Debug/net8.0/appsettings.json
+/Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/bin/Debug/net8.0/DotnetExamSystem.Api.staticwebassets.runtime.json
 /Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/bin/Debug/net8.0/DotnetExamSystem.Api
 /Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/bin/Debug/net8.0/DotnetExamSystem.Api.deps.json
 /Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/bin/Debug/net8.0/DotnetExamSystem.Api.runtimeconfig.json
@@ -15,6 +16,8 @@
 /Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/bin/Debug/net8.0/DotnetExamSystem.Api.pdb
 /Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/bin/Debug/net8.0/BCrypt.Net-Next.dll
 /Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/bin/Debug/net8.0/DnsClient.dll
+/Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/bin/Debug/net8.0/FluentValidation.dll
+/Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/bin/Debug/net8.0/FluentValidation.DependencyInjectionExtensions.dll
 /Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/bin/Debug/net8.0/MediatR.dll
 /Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/bin/Debug/net8.0/MediatR.Contracts.dll
 /Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/bin/Debug/net8.0/MediatR.Extensions.Microsoft.DependencyInjection.dll
@@ -53,6 +56,3 @@
 /Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/obj/Debug/net8.0/DotnetExamSystem.Api.pdb
 /Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/obj/Debug/net8.0/DotnetExamSystem.Api.genruntimeconfig.cache
 /Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/obj/Debug/net8.0/ref/DotnetExamSystem.Api.dll
-/Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/bin/Debug/net8.0/DotnetExamSystem.Api.staticwebassets.runtime.json
-/Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/bin/Debug/net8.0/FluentValidation.dll
-/Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/bin/Debug/net8.0/FluentValidation.DependencyInjectionExtensions.dll

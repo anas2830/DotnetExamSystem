@@ -20,15 +20,25 @@ public class ExamRepository
     {
         var exams = await _exams.Find(_ => true).ToListAsync();
 
-        if (role != "Admin" && !string.IsNullOrEmpty(userId))
+        if (role == "User" && !string.IsNullOrEmpty(userId))
         {
-            var purchasedExamIds = await _userExams
-                .Find(x => x.UserId == userId)
-                .Project(x => x.ExamId)
-                .ToListAsync();
-
             foreach (var exam in exams)
-                exam.AlreadyPurchase = purchasedExamIds.Contains(exam.Id) ? 1 : 0;
+            {
+                var userExam = await _userExams.Find(x => x.ExamId == exam.Id && x.UserId == userId).FirstOrDefaultAsync();
+
+                if (userExam != null)
+                {
+                    exam.AlreadyPurchase = 1;
+                    exam.Status = userExam.Status;   // e.g. Booked / Started / Completed
+                    exam.UserExamId = userExam.Id;
+                }
+                else
+                {
+                    exam.AlreadyPurchase = 0;
+                    exam.Status = "Not Purchased";
+                    exam.UserExamId = null;
+                }
+            }
         }
 
         return exams;

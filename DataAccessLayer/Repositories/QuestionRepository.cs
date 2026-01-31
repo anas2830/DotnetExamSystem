@@ -26,4 +26,12 @@ public class QuestionRepository
         var result = await _questions.DeleteOneAsync(q => q.Id == id);
         return result.IsAcknowledged && result.DeletedCount > 0;
     }
+
+    public async Task<List<Question>> GetRandomAsync(int total)
+    {
+        return await _questions
+            .Aggregate()
+            .Sample(total)
+            .ToListAsync();
+    }
 }

@@ -17,5 +17,11 @@ public class Exam
     public int TotalQuestions { get; set; }
 
     [NotMapped]
-    public int AlreadyPurchase { get; set; } = 0;
+    public int? AlreadyPurchase { get; set; } = null;
+
+    [NotMapped]
+    public string? Status { get; set; } = null;
+
+    [NotMapped]
+    public string? UserExamId { get; set; } = null;
 }

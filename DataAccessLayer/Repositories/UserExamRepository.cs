@@ -32,4 +32,9 @@ public class UserExamRepository
     {
         return await _collection.Find(ue => ue.ExamId == examId).ToListAsync();
     }
+
+    public async Task<List<UserExam>> GetByUserIdAsync(string userId)
+    {
+        return await _collection.Find(ue => ue.UserId == userId).ToListAsync();
+    }
 }

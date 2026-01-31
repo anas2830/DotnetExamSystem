@@ -31,6 +31,9 @@ public class GetUserExamSummaryQueryHandler : IRequestHandler<GetUserExamSummary
         CancellationToken cancellationToken)
     {
         var userExam = await _userExamService.GetByIdAsync(request.UserExamId);
+        
+        if (request.Role == "User" && userExam.UserId != request.UserId)
+            throw new ApiException("You are not authorized to access this exam");
 
         if (userExam == null)
             throw new ApiException("User exam not found");

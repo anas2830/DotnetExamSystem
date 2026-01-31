@@ -59,7 +59,7 @@ public class UserExamService : IUserExam
         return userExam;
     }
 
-    public async Task<UserExam> StartExamAsync(string userId, string examId)
+    public async Task<StartExamResponse> StartExamAsync(string userId, string examId)
     {
         var existing = await _repo.GetByUserAndExamAsync(userId, examId);
         if (existing == null)
@@ -76,9 +76,34 @@ public class UserExamService : IUserExam
         if (today != exam.Date.Date)
             throw new ApiException($"This exam can only be taken on {exam.Date:dd-MM-yyyy}");
 
+        var questions = await _questionRepo.GetRandomAsync(exam.TotalQuestions);
+
+        if (questions.Count != exam.TotalQuestions)
+            throw new ApiException("Not enough questions found for the exam");
+
+
+        var questionDtos = questions.Select(q => new QuestionDto
+        {
+            Id = q.Id,
+            Title = q.Title,
+            Options = q.Options.Select(o => new OptionDto
+            {
+                Id = o.Key,
+                Title = o.Value
+            }).ToList()
+        }).ToList();
+
+        var startExamResponse = new StartExamResponse
+        {
+            ExamId = exam.Id,
+            ExamTitle = exam.Title,
+            DurationMinutes = exam.TimeInMinutes,
+            Questions = questionDtos
+        };
+
         existing.Status = "Started";
         await _repo.UpdateAsync(existing);
-        return existing;
+        return startExamResponse;
     }
 
     public async Task<UserExam> SubmitExamAsync(string userId, string examId, List<UserExamAnswer> answers)
@@ -116,7 +141,7 @@ public class UserExamService : IUserExam
     {
         var userExams = await _repo.GetByExamIdAsync(examId);
         if (userExams.Count == 0)
-            throw new ApiException("No user exams found for this exam");
+            throw new ApiException("No user found for this exam");
         return userExams;
     }
 
@@ -150,5 +175,10 @@ public class UserExamService : IUserExam
         }
 
         return result;
+    }
+
+    public async Task<List<UserExam>> GetByUserIdAsync(string userId)
+    {
+        return await _repo.GetByUserIdAsync(userId);
     }
 }

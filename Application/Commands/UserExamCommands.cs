@@ -1,5 +1,6 @@
 using DotnetExamSystem.Api.Models;
 using MediatR;
+using DotnetExamSystem.Api.DTO;
 
 public class BuyExamCommand : IRequest<UserExam>
 {
@@ -7,7 +8,7 @@ public class BuyExamCommand : IRequest<UserExam>
     public string ExamId { get; set; } = null!;
 }
 
-public class StartExamCommand : IRequest<UserExam>
+public class StartExamCommand : IRequest<StartExamResponse>
 {
     public string UserId { get; set; } = null!;
     public string ExamId { get; set; } = null!;

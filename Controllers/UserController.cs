@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using FluentValidation;
 using System.Linq;
+using System.Security.Claims;
 
 namespace DotnetExamSystem.Api.Controllers;
 
@@ -91,5 +92,18 @@ public class UserController : ControllerBase
     {
         var user = await _mediator.Send(new GetUserQuery { Id = id });
         return Ok(user);
+    }
+
+    [HttpGet("dashboard")]
+    [Authorize]
+    public async Task<IActionResult> GetDashboard([FromQuery] string? targetUserId = null)
+    {
+        var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+        var userId = userRole == "Admin" ? targetUserId : User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+        if (userId == null)
+            return BadRequest(new { message = "User not found" });
+
+        var dashboard = await _mediator.Send(new GetDashboardQuery { UserId = userId });
+        return Ok(dashboard);
     }
 }

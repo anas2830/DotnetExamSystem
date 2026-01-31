@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using DotnetExamSystem.Api.Application.Commands;
 using DotnetExamSystem.Api.Application.Queries;
+using System.Security.Claims;
 
 [ApiController]
 [Route("api/userexam")]
@@ -48,9 +49,13 @@ public class UserExamController : ControllerBase
     {
         try
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
             var summary = await _mediator.Send(new GetUserExamSummaryQuery
             {
-                UserExamId = userExamId
+                UserExamId = userExamId,
+                UserId = userId,
+                Role = role
             });
             return Ok(summary);
         }

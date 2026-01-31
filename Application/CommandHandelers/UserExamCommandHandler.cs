@@ -1,6 +1,7 @@
 using DotnetExamSystem.Api.DataAccessLayer.Interfaces;
 using DotnetExamSystem.Api.Models;
 using MediatR;
+using DotnetExamSystem.Api.DTO;
 
 public class BuyExamCommandHandler : IRequestHandler<BuyExamCommand, UserExam>
 {
@@ -11,12 +12,12 @@ public class BuyExamCommandHandler : IRequestHandler<BuyExamCommand, UserExam>
         => await _service.BuyExamAsync(request.UserId, request.ExamId);
 }
 
-public class StartExamCommandHandler : IRequestHandler<StartExamCommand, UserExam>
+public class StartExamCommandHandler : IRequestHandler<StartExamCommand, StartExamResponse>
 {
     private readonly IUserExam _service;
     public StartExamCommandHandler(IUserExam service) => _service = service;
 
-    public async Task<UserExam> Handle(StartExamCommand request, CancellationToken cancellationToken)
+    public async Task<StartExamResponse> Handle(StartExamCommand request, CancellationToken cancellationToken)
         => await _service.StartExamAsync(request.UserId, request.ExamId);
 }
 

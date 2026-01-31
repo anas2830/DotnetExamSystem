@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DotnetExamSystem.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8fd4a98414109e54540c2f6a001cbd5fb6bd270b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4ff9077f145fec5d8e734d9e5aff00c853687aa2")]
 [assembly: System.Reflection.AssemblyProductAttribute("DotnetExamSystem.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DotnetExamSystem.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
