@@ -32,4 +32,10 @@ public class User
 
     [BsonElement("Balance")]
     public decimal Balance { get; set; }
+
+    [BsonElement("CreatedAt")]
+    public DateTime CreatedAt { get; set; }
+
+    [BsonElement("UpdatedAt")]
+    public DateTime UpdatedAt { get; set; }
 }

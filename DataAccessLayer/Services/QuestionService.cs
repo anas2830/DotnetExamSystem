@@ -3,6 +3,7 @@ using DotnetExamSystem.Api.Models;
 using DotnetExamSystem.Api.DataAccessLayer.Repositories;
 using DotnetExamSystem.Api.Application.Commands;
 using DotnetExamSystem.Api.Exceptions;
+using System.Linq.Expressions;
 
 namespace DotnetExamSystem.Api.DataAccessLayer.Services;
 
@@ -54,5 +55,10 @@ public class QuestionService : IQuestion
         if (anyAnswer) throw new ApiException("Some users have answered this question");
 
         return await _questionRepository.DeleteAsync(id);
+    }
+
+    public async Task<int> CountAsync(Expression<Func<Question, bool>>? predicate = null)
+    {
+        return await _questionRepository.CountAsync(predicate);
     }
 }

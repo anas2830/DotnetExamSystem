@@ -90,7 +90,7 @@ public class ExamController : ControllerBase
 
     [HttpGet("{id}")]
     [Authorize]
-    public async Task<IActionResult> GetExam(string id)
+    public async Task<IActionResult> GetExamById(string id)
     {
         var exam = await _mediator.Send(new GetExamQuery { Id = id });
         return Ok(exam);
@@ -98,13 +98,14 @@ public class ExamController : ControllerBase
 
     [HttpGet]
     [Authorize]
-    public async Task<IActionResult> GetAllExams()
+    public async Task<IActionResult> GetAllExams([FromQuery] string? search = null)
     {
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var role = User.FindFirst(ClaimTypes.Role)?.Value ?? "User";
         var exams = await _mediator.Send(new GetAllExamsQuery { 
             UserId = userId ?? "",
-            Role = role 
+            Role = role,
+            Search = search
         });
         return Ok(exams);
     }

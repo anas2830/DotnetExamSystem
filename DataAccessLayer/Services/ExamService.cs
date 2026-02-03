@@ -3,6 +3,7 @@ using DotnetExamSystem.Api.Models;
 using DotnetExamSystem.Api.Application.Commands;
 using DotnetExamSystem.Api.DataAccessLayer.Repositories;
 using DotnetExamSystem.Api.Exceptions;
+using System.Linq.Expressions;
 
 namespace DotnetExamSystem.Api.DataAccessLayer.Services;
 
@@ -33,8 +34,8 @@ public class ExamService : IExam
         return await _examRepository.GetByIdAsync(id);
     }
 
-    public async Task<List<Exam>> GetAllAsync(string userId, string role){
-        return await _examRepository.GetAllAsync(userId, role);
+    public async Task<List<Exam>> GetAllAsync(string userId, string role, string? search = null){
+        return await _examRepository.GetAllAsync(userId, role, search);
     }
 
     public async Task<bool> UpdateAsync(UpdateExamCommand command){
@@ -55,5 +56,10 @@ public class ExamService : IExam
         var anyUserExam = await _userExamRepository.ExistsAsync(ue => ue.ExamId == id);
         if (anyUserExam) throw new ApiException("Some users have bought this exam");
         return await _examRepository.DeleteAsync(id);
+    }
+
+    public async Task<int> CountAsync(Expression<Func<Exam, bool>>? predicate = null)
+    {
+        return await _examRepository.CountAsync(predicate);
     }
 }

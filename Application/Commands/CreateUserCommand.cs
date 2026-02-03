@@ -12,4 +12,6 @@ public class CreateUserCommand : IRequest<User>
     public string? Address { get; set; }
     public IFormFile? ProfileImage { get; set; }
     public decimal Balance { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
 } 

@@ -1,6 +1,7 @@
 using DotnetExamSystem.Api.Models;
 using MongoDB.Driver;
 using DotnetExamSystem.Api.Application.Commands;
+using System.Linq.Expressions;
 
 namespace DotnetExamSystem.Api.DataAccessLayer.Repositories;
 
@@ -33,5 +34,13 @@ public class QuestionRepository
             .Aggregate()
             .Sample(total)
             .ToListAsync();
+    }
+
+    public async Task<int> CountAsync(Expression<Func<Question, bool>>? predicate = null)
+    {
+        if (predicate == null)
+            return (int)await _questions.CountDocumentsAsync(_ => true);
+
+        return (int)await _questions.CountDocumentsAsync(predicate);
     }
 }

@@ -2,6 +2,7 @@ using DotnetExamSystem.Api.Models;
 using MongoDB.Driver;
 using DotnetExamSystem.Api.Application.Commands;
 using MongoDB.Bson;
+using System.Linq.Expressions;
 
 namespace DotnetExamSystem.Api.DataAccessLayer.Repositories;
 
@@ -16,9 +17,23 @@ public class ExamRepository
         _userExams = context.GetCollection<UserExam>("UserExams");
     }
 
-    public async Task<List<Exam>> GetAllAsync(string? userId, string? role)
+    public async Task<List<Exam>> GetAllAsync(string? userId, string? role, string? search = null)
     {
-        var exams = await _exams.Find(_ => true).ToListAsync();
+         var filterBuilder = Builders<Exam>.Filter;
+
+        // base filter
+        FilterDefinition<Exam> filter = filterBuilder.Empty;
+
+        // search by title
+        if (!string.IsNullOrEmpty(search))
+        {
+            filter = filterBuilder.Regex(
+                e => e.Title,
+                new MongoDB.Bson.BsonRegularExpression(search, "i")
+            );
+        }
+
+        var exams = await _exams.Find(filter).ToListAsync();
 
         if (role == "User" && !string.IsNullOrEmpty(userId))
         {
@@ -55,5 +70,12 @@ public class ExamRepository
     {
         var result = await _exams.DeleteOneAsync(e => e.Id == id);
         return result.IsAcknowledged && result.DeletedCount > 0;
+    }
+    public async Task<int> CountAsync(Expression<Func<Exam, bool>>? predicate = null)
+    {
+        if (predicate == null)
+            return (int)await _exams.CountDocumentsAsync(_ => true);
+
+        return (int)await _exams.CountDocumentsAsync(predicate);
     }
 }

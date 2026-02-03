@@ -1,5 +1,8 @@
 using DotnetExamSystem.Api.Models;
 using MongoDB.Driver;
+using System.Linq.Expressions;
+using DotnetExamSystem.Api.Exceptions;
+using MongoDB.Bson;
 
 namespace DotnetExamSystem.Api.DataAccessLayer.Repositories;
 
@@ -37,5 +40,45 @@ public class UserRepository
     public async Task<User?> GetByIdAsync(string id)
     {
         return await _users.Find(u => u.Id == id).FirstOrDefaultAsync();
+    }
+
+    public async Task<int> CountAsync(Expression<Func<User, bool>>? predicate = null)
+    {
+        if (predicate == null)
+            return (int)await _users.CountDocumentsAsync(_ => true);
+
+        return (int)await _users.CountDocumentsAsync(predicate);
+    }
+
+    public async Task<List<User>> GetAllAsync(string? query = null)
+    {
+        var filterBuilder = Builders<User>.Filter;
+        var filter = filterBuilder.Eq(u => u.Role, "User"); // only users, not admin
+
+        if (!string.IsNullOrEmpty(query))
+        {
+            var searchFilter = filterBuilder.Or(
+                filterBuilder.Regex(u => u.Name, new MongoDB.Bson.BsonRegularExpression(query, "i")),
+                filterBuilder.Regex(u => u.Email, new MongoDB.Bson.BsonRegularExpression(query, "i"))
+            );
+
+            filter = filterBuilder.And(filter, searchFilter);
+        }
+
+        return await _users.Find(filter).ToListAsync();
+    }
+
+    public async Task<User> UpdateBalanceAsync(User user)
+    {
+        var update = Builders<User>.Update
+            .Set(u => u.Balance, user.Balance)
+            .Set(u => u.UpdatedAt, user.UpdatedAt);
+
+        var result = await _users.UpdateOneAsync(u => u.Id == user.Id, update);
+
+        if (!result.IsAcknowledged || result.ModifiedCount == 0)
+            throw new ApiException("Failed to update user balance");
+
+        return user; // Update successful, return updated user
     }
 }

@@ -37,4 +37,12 @@ public class UserExamRepository
     {
         return await _collection.Find(ue => ue.UserId == userId).ToListAsync();
     }
+
+    public async Task<int> CountAsync(Expression<Func<UserExam, bool>>? predicate = null)
+    {
+        if (predicate == null)
+            return (int)await _collection.CountDocumentsAsync(_ => true);
+
+        return (int)await _collection.CountDocumentsAsync(predicate);
+    }
 }

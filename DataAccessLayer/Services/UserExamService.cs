@@ -3,6 +3,7 @@ using DotnetExamSystem.Api.DataAccessLayer.Repositories;
 using DotnetExamSystem.Api.Models;
 using DotnetExamSystem.Api.DTO;
 using DotnetExamSystem.Api.Exceptions;
+using System.Linq.Expressions;
 
 namespace DotnetExamSystem.Api.DataAccessLayer.Services;
 
@@ -180,5 +181,10 @@ public class UserExamService : IUserExam
     public async Task<List<UserExam>> GetByUserIdAsync(string userId)
     {
         return await _repo.GetByUserIdAsync(userId);
+    }
+
+    public async Task<int> CountAsync(Expression<Func<UserExam, bool>>? predicate = null)
+    {
+        return await _repo.CountAsync(predicate);
     }
 }

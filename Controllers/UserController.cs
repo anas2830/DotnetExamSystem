@@ -88,7 +88,7 @@ public class UserController : ControllerBase
 
     [HttpGet("{id}")]
     [Authorize]
-    public async Task<IActionResult> GetUser(string id)
+    public async Task<IActionResult> GetUserById(string id)
     {
         var user = await _mediator.Send(new GetUserQuery { Id = id });
         return Ok(user);

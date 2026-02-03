@@ -4,6 +4,8 @@ using DotnetExamSystem.Api.DataAccessLayer.Repositories;
 using DotnetExamSystem.Api.Application.Commands;
 using DotnetExamSystem.Api.Helpers;
 using DotnetExamSystem.Api.Exceptions;
+using System;
+using System.Linq.Expressions;
 
 namespace DotnetExamSystem.Api.DataAccessLayer.Services;
 
@@ -55,6 +57,8 @@ public class UserService : IUser
             Address = command.Address,
             ProfileImagePath = profileImagePath,
             Balance = 1000,
+            CreatedAt = DateTime.UtcNow.AddHours(6),
+            UpdatedAt = DateTime.UtcNow.AddHours(6),
         };
 
         await _userRepository.CreateAsync(user);
@@ -109,5 +113,24 @@ public class UserService : IUser
     public async Task<User?> GetByIdAsync(string id)
     {
         return await _userRepository.GetByIdAsync(id);
+    }
+
+    public async Task<int> CountAsync(Expression<Func<User, bool>>? predicate = null)
+    {
+        return await _userRepository.CountAsync(predicate);
+    }
+
+    public async Task<List<User>> GetAllAsync(string? query = null)
+    {
+        return await _userRepository.GetAllAsync(query);
+    }
+
+    public async Task<User> UpdateBalanceAsync(UpdateUserBalanceAdminPanelCommand command)
+    {
+        var user = await _userRepository.GetByIdAsync(command.Id);
+        if (user == null) throw new ApiException("User not found");
+        user.Balance = command.Balance;
+        user.UpdatedAt = DateTime.UtcNow.AddHours(6);
+        return await _userRepository.UpdateBalanceAsync(user);
     }
 }

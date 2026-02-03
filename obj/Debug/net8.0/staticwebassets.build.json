@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "6NeF2nUds8YL+CIbAb4rCPmFstr5plJ5YMO3zZCJFno=",
+  "Hash": "jgki3di7teXZzhEB7ZqYUhX7x9ARnM8eQU9j6gqVtBc=",
   "Source": "DotnetExamSystem.Api",
   "BasePath": "_content/DotnetExamSystem.Api",
   "Mode": "Default",
@@ -74,12 +74,12 @@
       "OriginalItemSpec": "wwwroot/uploads/3e6c4680-aba5-4c5b-9daa-358596b650d5.jpeg"
     },
     {
-      "Identity": "/Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/wwwroot/uploads/88a3fe9a-cc39-42eb-b115-8a13e0f6f807.jpeg",
+      "Identity": "/Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/wwwroot/uploads/a871a099-4cb4-481c-bd2f-9c019970ffcd.jpg",
       "SourceId": "DotnetExamSystem.Api",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/wwwroot/",
       "BasePath": "_content/DotnetExamSystem.Api",
-      "RelativePath": "uploads/88a3fe9a-cc39-42eb-b115-8a13e0f6f807.jpeg",
+      "RelativePath": "uploads/a871a099-4cb4-481c-bd2f-9c019970ffcd.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -90,7 +90,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/uploads/88a3fe9a-cc39-42eb-b115-8a13e0f6f807.jpeg"
+      "OriginalItemSpec": "wwwroot/uploads/a871a099-4cb4-481c-bd2f-9c019970ffcd.jpg"
     },
     {
       "Identity": "/Users/anasbinahammad/DotnetExamSystem/DotnetExamSystem.Api/wwwroot/uploads/c9672f8e-dff0-4571-a8af-5a4b44f7cb6e.jpg",
