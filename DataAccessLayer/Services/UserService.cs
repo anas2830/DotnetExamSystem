@@ -68,8 +68,17 @@ public class UserService : IUser
     public async Task<bool> UpdateAsync(UpdateUserCommand command)
     {
         var user = await _userRepository.GetByIdAsync(command.Id);
+
         if (user == null)
             throw new ApiException("User not found");
+        
+        if (await IsEmailExistsAsync(command.Email, command.Id))
+            throw new ApiException("Email already exists");
+
+        if (command.Balance != 0 && user.Role != "Admin")
+        {
+            throw new ApiException("You are not authorized to update balance");
+        }
         
         if (command.ProfileImage != null && command.ProfileImage.Length > 0)
         {
@@ -100,13 +109,16 @@ public class UserService : IUser
         
         user.Mobile = command.Mobile ?? user.Mobile;
         user.Address = command.Address ?? user.Address;
-        return await _userRepository.UpdateAsync(user);
+        var updatedUser = await _userRepository.UpdateAsync(user);
+        if (updatedUser == null) throw new ApiException("Failed to update user");
+        return updatedUser;
     }
 
     public async Task<bool> DeleteAsync(string id)
     {
         var user = await _userRepository.GetByIdAsync(id);
         if (user == null) throw new ApiException("User not found");
+        if (user.Role != "Admin") throw new ApiException("You are not authorized to delete this user");
         return await _userRepository.DeleteAsync(id);
     }
 
@@ -132,5 +144,10 @@ public class UserService : IUser
         user.Balance = command.Balance;
         user.UpdatedAt = DateTime.UtcNow.AddHours(6);
         return await _userRepository.UpdateBalanceAsync(user);
+    }
+
+    public async Task<bool> IsEmailExistsAsync(string email, string? excludeUserId = null)
+    {
+        return (await _userRepository.GetAllAsync()).Any(u => u.Email == email && u.Id != excludeUserId);
     }
 }

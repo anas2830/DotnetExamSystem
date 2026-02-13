@@ -9,8 +9,10 @@ public class UpdateUserCommandValidator : UserBaseValidator<UpdateUserCommand>
     public UpdateUserCommandValidator()
     {
         RuleFor(x => x.Name)
-            .NotEmpty().WithMessage("Name is required")
-            .MinimumLength(3).WithMessage("Name must be at least 3 characters");
+        .Cascade(CascadeMode.Stop)
+        .MinimumLength(3)
+        .When(x => x.Name != null)
+        .WithMessage("Name must be at least 3 characters");
 
         RuleFor(x => x.Password)
             .MinimumLength(6)

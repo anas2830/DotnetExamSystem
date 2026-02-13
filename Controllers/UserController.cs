@@ -54,6 +54,12 @@ public class UserController : ControllerBase
     {
         try
         {
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            var loggedInUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userRole != "Admin" && loggedInUserId != id)
+            {
+                return BadRequest(new { message = "You are not authorized to update this user" });
+            }
             command.Id = id;
             var user = await _mediator.Send(command);
             return Ok(user);
@@ -82,6 +88,12 @@ public class UserController : ControllerBase
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteUser(string id)
     {
+        var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+        var loggedInUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (userRole != "Admin" && loggedInUserId != id)
+        {
+            return BadRequest(new { message = "You are not authorized to delete this user" });
+        }
         var user = await _mediator.Send(new DeleteUserCommand { Id = id });
         return user ? NoContent() : NotFound();
     }

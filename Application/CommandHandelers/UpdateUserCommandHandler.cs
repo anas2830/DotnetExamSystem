@@ -15,7 +15,6 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, bool>
     }
 
     public async Task<bool> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
-    
     {
         return await _userService.UpdateAsync(request);
     }
