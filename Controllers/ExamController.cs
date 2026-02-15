@@ -98,14 +98,16 @@ public class ExamController : ControllerBase
 
     [HttpGet]
     [Authorize]
-    public async Task<IActionResult> GetAllExams([FromQuery] string? search = null)
+    public async Task<IActionResult> GetAllExams([FromQuery] string? search = null, [FromQuery] int? pageNumber = 1, [FromQuery] int? pageSize = 10)
     {
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var role = User.FindFirst(ClaimTypes.Role)?.Value ?? "User";
         var exams = await _mediator.Send(new GetAllExamsQuery { 
             UserId = userId ?? "",
             Role = role,
-            Search = search
+            Search = search,
+            PageNumber = pageNumber ?? 1,
+            PageSize = pageSize ?? 10
         });
         return Ok(exams);
     }

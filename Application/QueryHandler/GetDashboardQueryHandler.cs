@@ -4,6 +4,7 @@ using DotnetExamSystem.Api.Exceptions;
 using DotnetExamSystem.Api.Models;
 using MediatR;
 using DotnetExamSystem.Api.DTO;
+using DotnetExamSystem.Api.Common;
 
 namespace DotnetExamSystem.Api.Application.QueryHandler;
 
@@ -28,22 +29,22 @@ public class GetDashboardQueryHandler : IRequestHandler<GetDashboardQuery, UserD
 
 
         List<UserExam> userExams;
-        List<Exam> exams;
+        PagedResult<Exam> exams;
 
         userExams = await _userExamService.GetByUserIdAsync(request.UserId) ?? new List<UserExam>();
 
         if (user.Role == "Admin")
         {
-            exams = await _examService.GetAllAsync(request.UserId, "Admin") ?? new List<Exam>();
+            exams = await _examService.GetAllAsync(request.UserId, "Admin") ?? new PagedResult<Exam>();
         }
         else
         {
-            exams = await _examService.GetAllAsync(request.UserId, "User") ?? new List<Exam>();
+            exams = await _examService.GetAllAsync(request.UserId, "User") ?? new PagedResult<Exam>();
         }
 
         var userExamsDto = userExams.Select(x =>
         {
-            var exam = exams.FirstOrDefault(e => e.Id == x.ExamId);
+            var exam = exams.Items.FirstOrDefault(e => e.Id == x.ExamId);
             return new UserExamDto
             {
                 ExamId = x.ExamId,

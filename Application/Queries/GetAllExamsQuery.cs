@@ -1,9 +1,10 @@
 using MediatR;
 using DotnetExamSystem.Api.Models;
+using DotnetExamSystem.Api.Common;
 
 namespace DotnetExamSystem.Api.Application.Queries;
 
-public class GetAllExamsQuery() : IRequest<List<Exam>>
+public class GetAllExamsQuery() : IRequest<PagedResult<Exam>>
 {
     public string? UserId { get; set; }
     public string? Role { get; set; }

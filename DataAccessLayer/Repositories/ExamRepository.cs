@@ -3,6 +3,7 @@ using MongoDB.Driver;
 using DotnetExamSystem.Api.Application.Commands;
 using MongoDB.Bson;
 using System.Linq.Expressions;
+using DotnetExamSystem.Api.Common;
 
 namespace DotnetExamSystem.Api.DataAccessLayer.Repositories;
 
@@ -17,7 +18,7 @@ public class ExamRepository
         _userExams = context.GetCollection<UserExam>("UserExams");
     }
 
-    public async Task<List<Exam>> GetAllAsync(string? userId, string? role, string? search = null, int pageNumber = 1, int pageSize = 10)
+    public async Task<PagedResult<Exam>> GetAllAsync(string? userId, string? role, string? search = null, int pageNumber = 1, int pageSize = 10)
     {
          var filterBuilder = Builders<Exam>.Filter;
 
@@ -33,26 +34,26 @@ public class ExamRepository
             );
         }
 
-        var exams = await _exams.Find(filter).ToListAsync();
+        var totalCount = (int)await _exams.CountDocumentsAsync(filter);
+
+        var exams = await _exams.Find(filter).Skip((pageNumber - 1) * pageSize).Limit(pageSize).ToListAsync();
 
         if (role == "User" && !string.IsNullOrEmpty(userId))
         {
             foreach (var exam in exams)
             {
                 var userExam = await _userExams.Find(x => x.ExamId == exam.Id && x.UserId == userId).FirstOrDefaultAsync();
-
-                if (userExam != null)
-                {
-                    exam.AlreadyPurchase = 1;
-                }
-                else
-                {
-                    exam.AlreadyPurchase = 0;
-                }
+                exam.AlreadyPurchase = userExam != null ? 1 : 0;
             }
         }
 
-        return exams.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+        return new PagedResult<Exam>
+        {
+            Items = exams,
+            TotalCount = totalCount,
+            PageNumber = pageNumber,
+            PageSize = pageSize
+        };
     }
 
     public async Task<Exam?> GetByIdAsync(string id) => await _exams.Find(e => e.Id == id).FirstOrDefaultAsync();

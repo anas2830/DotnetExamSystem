@@ -2,10 +2,11 @@ using DotnetExamSystem.Api.Application.Queries;
 using DotnetExamSystem.Api.DataAccessLayer.Interfaces;
 using DotnetExamSystem.Api.Models;
 using MediatR;
+using DotnetExamSystem.Api.Common;
 
 namespace DotnetExamSystem.Api.Application.QueryHandler;
 
-public class GetAllExamsQueryHandler : IRequestHandler<GetAllExamsQuery, List<Exam>>
+public class GetAllExamsQueryHandler : IRequestHandler<GetAllExamsQuery, PagedResult<Exam>>
 {
     private readonly IExam _examService;
 
@@ -14,7 +15,7 @@ public class GetAllExamsQueryHandler : IRequestHandler<GetAllExamsQuery, List<Ex
         _examService = examService;
     }
 
-    public async Task<List<Exam>> Handle(GetAllExamsQuery request, CancellationToken cancellationToken)
+    public async Task<PagedResult<Exam>> Handle(GetAllExamsQuery request, CancellationToken cancellationToken)
     {
         return await _examService.GetAllAsync(request.UserId, request.Role, request.Search, request.PageNumber, request.PageSize);
     }
