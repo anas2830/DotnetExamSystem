@@ -59,7 +59,7 @@ public class GetDashboardQueryHandler : IRequestHandler<GetDashboardQuery, UserD
         // 4️⃣ Calculate stats
         int totalPurchased = userExams.Count(x => x.Status == "Started" || x.Status == "Booked" || x.Status == "Submitted");
         int totalSubmitted = userExams.Count(x => x.Status == "Submitted");
-        int remainingExams = exams.Count(e => !userExams.Any(ue => ue.ExamId == e.Id) && e.Status == "Booked");
+        int remainingExams = userExams.Count(x => x.Status == "Booked" || x.Status == "Started");
 
         return new UserDashboardDto
         {
