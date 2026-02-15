@@ -17,7 +17,7 @@ public class ExamRepository
         _userExams = context.GetCollection<UserExam>("UserExams");
     }
 
-    public async Task<List<Exam>> GetAllAsync(string? userId, string? role, string? search = null)
+    public async Task<List<Exam>> GetAllAsync(string? userId, string? role, string? search = null, int pageNumber = 1, int pageSize = 10)
     {
          var filterBuilder = Builders<Exam>.Filter;
 
@@ -52,7 +52,7 @@ public class ExamRepository
             }
         }
 
-        return exams;
+        return exams.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
     }
 
     public async Task<Exam?> GetByIdAsync(string id) => await _exams.Find(e => e.Id == id).FirstOrDefaultAsync();
