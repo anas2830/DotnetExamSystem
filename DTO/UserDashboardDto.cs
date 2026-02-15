@@ -19,7 +19,8 @@ namespace DotnetExamSystem.Api.DTO
         public string Status { get; set; } = "Booked";
         public decimal Price { get; set; }
         public decimal PaidAmount { get; set; }
+        public int Duration { get; set; }
+        public int Score { get; set; }
         public DateTime Date { get; set; }
     }
 }
-

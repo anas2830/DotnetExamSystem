@@ -66,19 +66,13 @@ public class UserService : IUser
     }
 
     public async Task<bool> UpdateAsync(UpdateUserCommand command)
-    {
+    {  
         var user = await _userRepository.GetByIdAsync(command.Id);
-
         if (user == null)
             throw new ApiException("User not found");
         
         if (await IsEmailExistsAsync(command.Email, command.Id))
             throw new ApiException("Email already exists");
-
-        if (command.Balance != 0 && user.Role != "Admin")
-        {
-            throw new ApiException("You are not authorized to update balance");
-        }
         
         if (command.ProfileImage != null && command.ProfileImage.Length > 0)
         {
@@ -106,7 +100,7 @@ public class UserService : IUser
         }
         
         user.Name = command.Name ?? user.Name;
-        
+        user.Balance = command.Balance != 0 ? command.Balance : 0;
         user.Mobile = command.Mobile ?? user.Mobile;
         user.Address = command.Address ?? user.Address;
         var updatedUser = await _userRepository.UpdateAsync(user);

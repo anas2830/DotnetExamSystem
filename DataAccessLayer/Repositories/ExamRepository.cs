@@ -44,14 +44,10 @@ public class ExamRepository
                 if (userExam != null)
                 {
                     exam.AlreadyPurchase = 1;
-                    exam.Status = userExam.Status;   // e.g. Booked / Started / Completed
-                    exam.UserExamId = userExam.Id;
                 }
                 else
                 {
                     exam.AlreadyPurchase = 0;
-                    exam.Status = "Not Purchased";
-                    exam.UserExamId = null;
                 }
             }
         }

@@ -60,6 +60,10 @@ public class UserController : ControllerBase
             {
                 return BadRequest(new { message = "You are not authorized to update this user" });
             }
+            if (userRole != "Admin")
+            {
+                return BadRequest(new { message = "You are not authorized to update balance" });
+            }
             command.Id = id;
             var user = await _mediator.Send(command);
             return Ok(user);
@@ -117,5 +121,17 @@ public class UserController : ControllerBase
 
         var dashboard = await _mediator.Send(new GetDashboardQuery { UserId = userId });
         return Ok(dashboard);
+    }
+
+    [HttpGet("user-exam/{targetUserId}")]
+    [Authorize (Roles = "Admin")]
+    public async Task<IActionResult> GetUserSubmittedExam(string targetUserId)
+    {
+        var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+        var userId = userRole == "Admin" ? targetUserId : User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+        if (userId == null)
+            return BadRequest(new { message = "User not found" });
+        var userSubmittedExam = await _mediator.Send(new GetUserSubmittedExamQuery { UserId = userId });
+        return Ok(userSubmittedExam);
     }
 }

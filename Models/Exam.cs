@@ -18,10 +18,4 @@ public class Exam
 
     [NotMapped]
     public int? AlreadyPurchase { get; set; } = null;
-
-    [NotMapped]
-    public string? Status { get; set; } = null;
-
-    [NotMapped]
-    public string? UserExamId { get; set; } = null;
 }
