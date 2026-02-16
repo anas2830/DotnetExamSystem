@@ -37,7 +37,8 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>
             UserId = user.Id,
             UserName = user.Name,
             UserRole = user.Role,
-            UserAvatar = user.ProfileImagePath
+            UserAvatar = user.ProfileImagePath,
+            UserEmail = user.Email
         };
     }
 }

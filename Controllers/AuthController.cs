@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using DotnetExamSystem.Api.Application.Commands;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DotnetExamSystem.Api.Controllers;
 

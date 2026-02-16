@@ -14,4 +14,5 @@ public interface IUser
     Task<int> CountAsync( Expression<Func<User, bool>>? predicate = null );
     Task<List<User>> GetAllAsync(string? query = null);
     Task<User> UpdateBalanceAsync(UpdateUserBalanceAdminPanelCommand command);
+    Task<bool> UpdatePasswordAsync(string userId, string newPasswordHash);
 }

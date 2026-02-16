@@ -147,4 +147,15 @@ public class UserService : IUser
     {
         return (await _userRepository.GetAllAsync()).Any(u => u.Email == email && u.Id != excludeUserId);
     }
+
+    public async Task<bool> UpdatePasswordAsync(string userId, string newPasswordHash)
+    {
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+            throw new ApiException("User not found");
+
+        user.Password = newPasswordHash;
+
+        return await _userRepository.UpdateAsync(user);
+    }
 }

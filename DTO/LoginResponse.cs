@@ -7,4 +7,5 @@ public class LoginResponse
     public string UserName { get; set; } = null!;
     public string UserRole { get; set; } = null!;
     public string UserAvatar { get; set; } = null!;
+    public string UserEmail { get; set; } = null!;
 }

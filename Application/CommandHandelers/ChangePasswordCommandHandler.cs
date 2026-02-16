@@ -17,13 +17,9 @@ public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordComman
 
     public async Task<bool> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
     {
-
         var user = await _userService.GetByEmailAsync(request.Email);
         if (user == null)
             throw new ApiException("User not found");
-        var result = await _userService.UpdateAsync(user);
-        if (!result)
-            throw new ApiException("Failed to update user");
 
         bool isPasswordValid = PasswordHelper.VerifyPassword(request.OldPassword, user.Password);
         if (!isPasswordValid)
@@ -32,9 +28,12 @@ public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordComman
         if (request.NewPassword != request.ConfirmPassword)
             throw new ApiException("New password and confirm password do not match");
 
-        user.Password = PasswordHelper.HashPassword(request.NewPassword);
+        var newHash = PasswordHelper.HashPassword(request.NewPassword);
 
-        await _userService.UpdateAsync(user.Id, user);
+        var result = await _userService.UpdatePasswordAsync(user.Id, newHash);
+
+        if (!result)
+            throw new ApiException("Failed to update password");
 
         return true;
     }
