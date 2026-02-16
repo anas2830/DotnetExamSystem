@@ -4,6 +4,7 @@ using DotnetExamSystem.Api.DataAccessLayer.Repositories;
 using DotnetExamSystem.Api.Application.Commands;
 using DotnetExamSystem.Api.Exceptions;
 using System.Linq.Expressions;
+using DotnetExamSystem.Api.Common;
 
 namespace DotnetExamSystem.Api.DataAccessLayer.Services;
 
@@ -32,7 +33,9 @@ public class QuestionService : IQuestion
 
     public async Task<Question?> GetByIdAsync(string id) => await _questionRepository.GetByIdAsync(id);
 
-    public async Task<List<Question>> GetAllAsync() => await _questionRepository.GetAllAsync();
+    public async Task<PagedResult<Question>> GetAllAsync(string? search = null, int pageNumber = 1, int pageSize = 10){
+        return await _questionRepository.GetAllAsync(search, pageNumber, pageSize);
+    }
 
     public async Task<bool> UpdateAsync(UpdateQuestionCommand command)
     {

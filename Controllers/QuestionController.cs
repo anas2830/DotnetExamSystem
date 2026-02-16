@@ -98,9 +98,9 @@ public class QuestionController : ControllerBase
 
     [HttpGet]
     [Authorize]
-    public async Task<IActionResult> GetAllQuestions()
+    public async Task<IActionResult> GetAllQuestions([FromQuery] string? search = null, [FromQuery] int? pageNumber = 1, [FromQuery] int? pageSize = 10)
     {
-        var questions = await _mediator.Send(new GetAllQuestionsQuery());
+        var questions = await _mediator.Send(new GetAllQuestionsQuery { Search = search, PageNumber = pageNumber ?? 1, PageSize = pageSize ?? 10 });
         return Ok(questions);
     }
 }
