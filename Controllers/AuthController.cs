@@ -42,4 +42,29 @@ public class AuthController : ControllerBase
             return Unauthorized(new { message = ex.Message });
         }
     }
+
+    [HttpPost("change-password")]
+    [Authorize]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command)
+    {
+        try
+        {
+            var result = await _mediator.Send(command);
+            return result ? Ok(new { message = "Password changed successfully" }) : BadRequest(new { message = "Failed to change password" });
+        }
+        catch (FluentValidation.ValidationException ex)
+        {
+            var errors = ex.Errors.Select(e => new
+            {
+                property = e.PropertyName,
+                message = e.ErrorMessage
+            });
+            return BadRequest(new { message = "Validation failed", errors });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
 }

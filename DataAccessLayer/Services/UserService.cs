@@ -100,7 +100,10 @@ public class UserService : IUser
         }
         
         user.Name = command.Name ?? user.Name;
-        user.Balance = command.Balance != 0 ? command.Balance : 0;
+        if (command.Balance.HasValue)
+        {
+            user.Balance = command.Balance.Value;
+        }
         user.Mobile = command.Mobile ?? user.Mobile;
         user.Address = command.Address ?? user.Address;
         var updatedUser = await _userRepository.UpdateAsync(user);

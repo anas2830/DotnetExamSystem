@@ -4,6 +4,7 @@ using MediatR;
 using DotnetExamSystem.Api.Application.Commands;
 using DotnetExamSystem.Api.DTO;
 using DotnetExamSystem.Api.Exceptions;
+using DotnetExamSystem.Api.Helpers;
 
 namespace DotnetExamSystem.Api.Application.CommandHandelers;
 
@@ -25,12 +26,18 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>
         {
             throw new ApiException("User not found");
         }
+        bool isPasswordValid = PasswordHelper.VerifyPassword(request.Password, user.Password);
+        if (!isPasswordValid)
+        {
+            throw new ApiException("Invalid credentials");
+        }
         return new LoginResponse
         {
             Token = _jwtService.GenerateToken(user.Id, user.Name, user.Role),
             UserId = user.Id,
             UserName = user.Name,
-            UserRole = user.Role
+            UserRole = user.Role,
+            UserAvatar = user.ProfileImagePath
         };
     }
 }

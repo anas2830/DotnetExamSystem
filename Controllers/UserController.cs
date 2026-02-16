@@ -60,7 +60,7 @@ public class UserController : ControllerBase
             {
                 return BadRequest(new { message = "You are not authorized to update this user" });
             }
-            if (userRole != "Admin")
+            if (userRole != "Admin" && command.Balance.HasValue)
             {
                 return BadRequest(new { message = "You are not authorized to update balance" });
             }
