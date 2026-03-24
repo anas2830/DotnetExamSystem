@@ -6,6 +6,7 @@ public class BuyExamCommand : IRequest<UserExam>
 {
     public string UserId { get; set; } = null!;
     public string ExamId { get; set; } = null!;
+    public DateOnly ExamDate { get; set; } = DateOnly.MinValue;
 }
 
 public class StartExamCommand : IRequest<StartExamResponse>

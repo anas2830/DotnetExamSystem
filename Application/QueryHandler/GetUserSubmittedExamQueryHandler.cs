@@ -40,8 +40,7 @@ public class GetUserSubmittedExamQueryHandler : IRequestHandler<GetUserSubmitted
                 Price = exam?.Price ?? 0,
                 PaidAmount = userExam.AmountPaid,
                 Duration = exam?.TimeInMinutes ?? 0,
-                Score = userExam.Score ?? 0,
-                Date = exam?.Date ?? DateTime.MinValue
+                Score = userExam.Score ?? 0
             });
         }
         return result;

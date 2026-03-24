@@ -9,7 +9,7 @@ public class BuyExamCommandHandler : IRequestHandler<BuyExamCommand, UserExam>
     public BuyExamCommandHandler(IUserExam service) => _service = service;
 
     public async Task<UserExam> Handle(BuyExamCommand request, CancellationToken cancellationToken)
-        => await _service.BuyExamAsync(request.UserId, request.ExamId);
+        => await _service.BuyExamAsync(request.UserId, request.ExamId, request.ExamDate);
 }
 
 public class StartExamCommandHandler : IRequestHandler<StartExamCommand, StartExamResponse>

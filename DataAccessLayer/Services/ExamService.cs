@@ -22,7 +22,6 @@ public class ExamService : IExam
     public async Task<Exam> CreateAsync(CreateExamCommand command){
         var exam = new Exam{
             Title = command.Title,
-            Date = command.Date,
             Price = command.Price,
             TimeInMinutes = command.TimeInMinutes,
             TotalQuestions = command.TotalQuestions
@@ -44,7 +43,6 @@ public class ExamService : IExam
         if (exam == null) throw new ApiException("Exam not found");
 
         exam.Title = command.Title ?? exam.Title;
-        exam.Date = command.Date ?? exam.Date;
         exam.Price = command.Price ?? exam.Price;
         exam.TimeInMinutes = command.TimeInMinutes ?? exam.TimeInMinutes;
         exam.TotalQuestions = command.TotalQuestions ?? exam.TotalQuestions;

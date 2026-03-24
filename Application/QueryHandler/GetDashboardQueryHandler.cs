@@ -53,7 +53,6 @@ public class GetDashboardQueryHandler : IRequestHandler<GetDashboardQuery, UserD
                 Status = x.Status,
                 Price = exam?.Price ?? 0,
                 PaidAmount = x.AmountPaid,
-                Date = exam?.Date ?? DateTime.MinValue
             };
         }).ToList();
 

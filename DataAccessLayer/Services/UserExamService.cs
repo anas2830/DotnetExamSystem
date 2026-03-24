@@ -30,7 +30,7 @@ public class UserExamService : IUserExam
         return userExam;
     }
 
-    public async Task<UserExam> BuyExamAsync(string userId, string examId)
+    public async Task<UserExam> BuyExamAsync(string userId, string examId, DateOnly examDate)
     {
         var exam = await _examRepo.GetByIdAsync(examId);
         if (exam == null)
@@ -52,8 +52,9 @@ public class UserExamService : IUserExam
             UserId = userId,
             ExamId = examId,
             Status = "Booked",
-            BookedAt = DateTime.UtcNow,
-            AmountPaid = exam.Price
+            BookedAt = DateOnly.FromDateTime(DateTime.Now.Date),
+            AmountPaid = exam.Price,
+            ExamDate = examDate
         };
 
         await _repo.CreateAsync(userExam);
@@ -72,10 +73,6 @@ public class UserExamService : IUserExam
         var exam = await _examRepo.GetByIdAsync(examId);
         if (exam == null)
             throw new ApiException("Exam not found");
-
-        var today = DateTime.UtcNow.Date;
-        if (today != exam.Date.Date)
-            throw new ApiException($"This exam can only be taken on {exam.Date:dd-MM-yyyy}");
 
         var questions = await _questionRepo.GetRandomAsync(exam.TotalQuestions);
 

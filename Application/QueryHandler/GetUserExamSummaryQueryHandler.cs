@@ -81,7 +81,6 @@ public class GetUserExamSummaryQueryHandler : IRequestHandler<GetUserExamSummary
             {
                 Id = exam.Id,
                 Title = exam.Title,
-                Date = exam.Date,
                 TotalQuestions = exam.TotalQuestions,
                 TimeInMinutes = exam.TimeInMinutes,
                 Price = exam.Price

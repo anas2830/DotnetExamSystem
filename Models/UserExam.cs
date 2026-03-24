@@ -11,11 +11,12 @@ public class UserExam
 
     public string UserId { get; set; } = null!;
     public string ExamId { get; set; } = null!;
-    public DateTime BookedAt { get; set; } = DateTime.UtcNow;
+    public DateOnly BookedAt { get; set; } = DateOnly.MinValue;
     public string Status { get; set; } = "Booked"; // Booked | Started | Submitted
     public int? Score { get; set; } = 0;
     public List<UserExamAnswer> Answers { get; set; } = new();
     public decimal AmountPaid { get; set; }
+    public DateOnly? ExamDate { get; set; } = null;
 }
 
 public class UserExamAnswer

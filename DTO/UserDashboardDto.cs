@@ -21,6 +21,7 @@ namespace DotnetExamSystem.Api.DTO
         public decimal PaidAmount { get; set; }
         public int Duration { get; set; }
         public int Score { get; set; }
-        public DateTime Date { get; set; }
+        public DateOnly BookedAt { get; set; } = DateOnly.MinValue;
+        public DateOnly? ExamDate { get; set; } = null;
     }
 }
