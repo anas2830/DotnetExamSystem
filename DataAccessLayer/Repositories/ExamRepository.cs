@@ -4,6 +4,7 @@ using DotnetExamSystem.Api.Application.Commands;
 using MongoDB.Bson;
 using System.Linq.Expressions;
 using DotnetExamSystem.Api.Common;
+using DotnetExamSystem.Api.DTO;
 
 namespace DotnetExamSystem.Api.DataAccessLayer.Repositories;
 
@@ -18,7 +19,7 @@ public class ExamRepository
         _userExams = context.GetCollection<UserExam>("UserExams");
     }
 
-    public async Task<PagedResult<Exam>> GetAllAsync(string? userId, string? role, string? search = null, int pageNumber = 1, int pageSize = 10)
+    public async Task<PagedResult<ExamDto>> GetAllAsync(string? userId, string? role, string? search = null, int pageNumber = 1, int pageSize = 10)
     {
          var filterBuilder = Builders<Exam>.Filter;
 
@@ -38,18 +39,37 @@ public class ExamRepository
 
         var exams = await _exams.Find(filter).Skip((pageNumber - 1) * pageSize).Limit(pageSize).ToListAsync();
 
-        if (role == "User" && !string.IsNullOrEmpty(userId))
+        List<UserExam> userExams = new();
+
+        if (!string.IsNullOrEmpty(userId))
         {
-            foreach (var exam in exams)
-            {
-                var userExam = await _userExams.Find(x => x.ExamId == exam.Id && x.UserId == userId).FirstOrDefaultAsync();
-                exam.AlreadyPurchase = userExam != null ? 1 : 0;
-            }
+            var examIds = exams.Select(x => x.Id).ToList();
+
+            userExams = await _userExams.Find(x =>
+                x.UserId == userId && examIds.Contains(x.ExamId)
+            ).ToListAsync();
         }
 
-        return new PagedResult<Exam>
+        var items = exams.Select(exam =>
         {
-            Items = exams,
+            var userExam = userExams.FirstOrDefault(x => x.ExamId == exam.Id);
+
+            return new ExamDto
+            {
+                Id = exam.Id,
+                Title = exam.Title,
+                Price = exam.Price,
+                TimeInMinutes = exam.TimeInMinutes,
+                TotalQuestions = exam.TotalQuestions,
+                AlreadyPurchase = userExam != null,
+                ExamDate = userExam?.ExamDate,
+                Status = userExam?.Status ?? "Booked"
+            };
+        }).ToList();
+
+        return new PagedResult<ExamDto>
+        {
+            Items = items,
             TotalCount = totalCount,
             PageNumber = pageNumber,
             PageSize = pageSize

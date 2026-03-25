@@ -47,6 +47,10 @@ public class UserExamService : IUserExam
         user.Balance -= exam.Price;
         await _userRepo.UpdateAsync(user);
 
+
+        exam.AlreadyPurchase = 1;
+        await _examRepo.UpdateAsync(exam);
+
         var userExam = new UserExam
         {
             UserId = userId,

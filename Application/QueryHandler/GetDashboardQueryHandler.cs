@@ -29,17 +29,17 @@ public class GetDashboardQueryHandler : IRequestHandler<GetDashboardQuery, UserD
 
 
         List<UserExam> userExams;
-        PagedResult<Exam> exams;
+        PagedResult<ExamDto> exams;
 
         userExams = await _userExamService.GetByUserIdAsync(request.UserId) ?? new List<UserExam>();
 
         if (user.Role == "Admin")
         {
-            exams = await _examService.GetAllAsync(request.UserId, "Admin") ?? new PagedResult<Exam>();
+            exams = await _examService.GetAllAsync(request.UserId, "Admin") ?? new PagedResult<ExamDto>();
         }
         else
         {
-            exams = await _examService.GetAllAsync(request.UserId, "User") ?? new PagedResult<Exam>();
+            exams = await _examService.GetAllAsync(request.UserId, "User") ?? new PagedResult<ExamDto>();
         }
 
         var userExamsDto = userExams.Select(x =>

@@ -5,6 +5,7 @@ using DotnetExamSystem.Api.DataAccessLayer.Repositories;
 using DotnetExamSystem.Api.Exceptions;
 using System.Linq.Expressions;
 using DotnetExamSystem.Api.Common;
+using DotnetExamSystem.Api.DTO;
 
 namespace DotnetExamSystem.Api.DataAccessLayer.Services;
 
@@ -34,7 +35,7 @@ public class ExamService : IExam
         return await _examRepository.GetByIdAsync(id);
     }
 
-    public async Task<PagedResult<Exam>> GetAllAsync(string userId, string role, string? search = null, int pageNumber = 1, int pageSize = 10){
+    public async Task<PagedResult<ExamDto>> GetAllAsync(string userId, string role, string? search = null, int pageNumber = 1, int pageSize = 10){
         return await _examRepository.GetAllAsync(userId, role, search, pageNumber, pageSize);
     }
 

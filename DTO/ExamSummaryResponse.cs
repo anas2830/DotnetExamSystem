@@ -33,6 +33,9 @@ public class ExamDto
     public int TotalQuestions { get; set; }
     public int TimeInMinutes { get; set; }
     public decimal Price { get; set; }
+    public bool AlreadyPurchase { get; set; } = false;
+    public DateOnly? ExamDate { get; set; } = null;
+    public string Status { get; set; } = null!;
 }
 
 public class UserExamQuestionDto
